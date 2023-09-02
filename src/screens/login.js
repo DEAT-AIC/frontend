@@ -3,31 +3,34 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import axios from 'axios';
 import {API_BASE_URL} from "@env"
 
-const LoginScreen = () => {
+const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    // You should replace 'YOUR_SERVER_URL' with the actual URL of your server
     const base = API_BASE_URL
     const serverUrl = `${base}/api/auth/login`;
     console.log(serverUrl);
 
     const requestData = {
-      email: email, // Change to 'email'
+      email: email, 
       password: password,
     };
+    console.log("Click");
+    console.log(requestData);
 
-    try {
-      const response = await axios.post(serverUrl, requestData);
+    // try {
+    //   const response = await axios.post(serverUrl, requestData);
 
-      console.log('Response from server:', response.data);
-      // Handle your login logic here based on the response from the server
-    } catch (error) {
-      console.error('Error:', error);
-      // Handle error scenarios, including specific error codes or messages from the server
-    }
+    //   console.log('Response from server:', response.data);
+    // } catch (error) {
+    //   console.error('Error:', error);
+    // }
   };
+
+  const goToRegister = () => {
+    navigation.navigate("Register");
+  }
 
   return (
     <View style={styles.container}>
@@ -46,6 +49,7 @@ const LoginScreen = () => {
         style={styles.input}
       />
       <Button title="Login" onPress={handleLogin} />
+      <Button title="Register" onPress={goToRegister} />
     </View>
   );
 };
@@ -65,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default Login;

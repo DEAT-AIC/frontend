@@ -1,21 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet,  View } from 'react-native';
-import LoginScreen from './src/login';
+import React, { useState } from 'react';
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
+import Navigator from './src/routes/routes';
+
+// const getFonts = () => Font.loadAsync({
+//   'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
+//   'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf'),
+// });
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <LoginScreen />
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  // const [fontsLoaded, setFontsLoaded] = useState(false);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  return (
+    <Navigator />
+  )
+}
