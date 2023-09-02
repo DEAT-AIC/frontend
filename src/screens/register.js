@@ -1,72 +1,108 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import axios from 'axios';
-import {API_BASE_URL} from "@env"
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
+import AuthContainer from '../components/authcontainer'
+import { globalStyles } from '../styles/global';
 
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleLogin = async () => {
-    // You should replace 'YOUR_SERVER_URL' with the actual URL of your server
-    const base = API_BASE_URL
-    const serverUrl = `${base}/api/auth/login`;
-    console.log(serverUrl);
+  const errorHandling = () => {
+    Alert.alert(
+      'Invalid Confirm Password', 'Password is not the same as confirm password. Please try again!', [
+        {
+          text: 'Try Again',
+          style: 'cancel',
+        },
+      ]);
+  }
 
-    const requestData = {
-      email: email, 
-      password: password,
-    };
-    console.log("Click");
-    console.log(requestData);
-
-    // try {
-    //   const response = await axios.post(serverUrl, requestData);
-
-    //   console.log('Response from server:', response.data);
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
-  };
+  const registerGoogleAccount = () => {
+    console.log("You click Google Account Login")
+  }
 
   const goToLogin = () => {
     navigation.navigate("Login");
   }
 
+  const next = () => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(email)) {
+      Alert.alert(
+        'Invalid Email', 'Your email is invalid. Please try again!', [
+        {
+          text: 'Try Again',
+          style: 'cancel',
+        },
+      ]);
+    } else {
+        if ((confirmPassword != password) || !password || !confirmPassword) {
+            errorHandling();
+        } else {
+            navigation.navigate("RegisterProfile", {
+                email, password
+            });
+        }
+    }
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Login</Text>
-      <TextInput
-        placeholder="Email" // Change placeholder
-        onChangeText={(text) => setEmail(text)} // Change state update function
-        value={email} // Change state variable
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Password"
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-        secureTextEntry
-        style={styles.input}
-      />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="Register" onPress={goToLogin} />
+    <View style={globalStyles.container}>
+      <AuthContainer>
+        <Text style={globalStyles.tittleCard}>SIGN UP</Text>
+        <Text>Email</Text>
+        <TextInput
+          placeholder="Email" // Change placeholder
+          onChangeText={(text) => setEmail(text)} // Change state update function
+          value={email} // Change state variable
+          style={globalStyles.input}
+        />
+        <Text>Password</Text>
+        <TextInput
+          placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          secureTextEntry
+          style={globalStyles.input}
+        />
+        <Text>Confirm Password</Text>
+        <TextInput
+          placeholder="Confirm Password"
+          onChangeText={(text) => setConfirmPassword(text)}
+          value={confirmPassword}
+          secureTextEntry
+          style={globalStyles.input}
+        />
+
+        <TouchableOpacity onPress={next} style={{ backgroundColor: '#009092', padding: 10, borderRadius: 8 }}>
+          <Text style={{ color: '#fff', textAlign:"center", fontWeight:"bold" }}>NEXT</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={registerGoogleAccount} style={styles.google}>
+          <Image 
+            style={styles.buttonImage}
+            source={require("../../assets/google.png")}
+          />
+          <Text style={{ textAlign:"center" }}>Signup using Google</Text>
+        </TouchableOpacity>
+        <Text>{'\n'}</Text>
+        <Text onPress={goToLogin} style={{ textAlign: "center", fontSize:12}}>ALREADY HAVE AN ACCOUNT?</Text>
+      </AuthContainer>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  google: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10
   },
-  input: {
-    width: '80%',
-    height: 40,
-    borderWidth: 1,
-    marginVertical: 10,
-    paddingHorizontal: 10,
+  buttonImage: {
+    height: 20,
+    width: 20,
+    resizeMode: 'stretch',
   },
 });
 
