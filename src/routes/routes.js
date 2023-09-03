@@ -15,6 +15,7 @@ import Login from "../screens/login";
 import Register from '../screens/register';
 import Landing from '../screens/landing';
 import RegisterProfile from '../screens/registerProfile';
+import Assessment from '../screens/assessment';
 
 
 const Stack = createNativeStackNavigator();
@@ -22,11 +23,12 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName="Assessment" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Landing" component={Landing} options={{ title: 'Welcome', headerLeft:null }}/>
         <Stack.Screen name="Login" component={Login} options={{}}/>
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="RegisterProfile" component={RegisterProfile} />
+        <Stack.Screen name="Assessment" component={Assessment}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
