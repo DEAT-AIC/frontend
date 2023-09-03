@@ -33,7 +33,7 @@ export default function App() {
       await _retrieveData();
       setIsLoading(false); // Set isLoading to false when data is ready
     }, 2000);
-  }, [])
+  }, [navigator])
 
   return (
     isLoading ? (

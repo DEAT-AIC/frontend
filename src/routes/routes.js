@@ -1,23 +1,17 @@
 
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-// import { auth , onAuthStateChanged   } from "../utils/firebase";
-// import { useDispatch, useSelector } from 'react-redux';
-// import { setLoading } from '../state-management/reducers';
-
-import Loading_Screen from '../utils/loading';
 
 import Login from "../screens/login";
 import Register from '../screens/register';
 import Landing from '../screens/landing';
 import RegisterProfile from '../screens/registerProfile';
 import SelectChild from '../screens/selectChild';
+import Assessment from '../screens/assessment';
 
 
 const Stack = createNativeStackNavigator();
-const StackHome = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const AuthNavigator = () => {
@@ -33,8 +27,9 @@ const AuthNavigator = () => {
 const HomeNavigator = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Landing" component={Landing} options={{ title: 'Welcome', headerLeft: null }} />
+      <Tab.Screen name="Landing" component={Landing} options={{ title: 'Home', headerLeft: null }} />
       <Tab.Screen name="SelectChild" component={SelectChild} options={{}} />
+      <Tab.Screen name="Assessment" component={Assessment} options={{}} />
     </Tab.Navigator>
   );
 }

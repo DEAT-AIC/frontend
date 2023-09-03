@@ -5,13 +5,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { signOut } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../firebase/firebaseConfig';
 import { API_BASE_URL } from "@env"
+// import RNRestart from 'react-native-restart';
 
 const Landing = ({ navigation }) => {
 
   const getData = async () => {
     const header = await getHeader();
-    // console.log(header.accessToken);
     const url = `${API_BASE_URL}/api/anak`;
+    axios.defaults.headers.common['Cookie'] = header;
     await axios.get(url).then((response) => { 
       console.log(response.data);
       // navigation.navigate("Login"); 
@@ -43,6 +44,7 @@ const Landing = ({ navigation }) => {
           Cookie: header
       }}).then((response) => { 
       console.log(response);
+      // RNRestart.restart();
       navigation.navigate('Auth', { screen: 'Login' }); 
     })
   }

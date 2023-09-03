@@ -5,12 +5,6 @@ import { API_BASE_URL } from "@env"
 import AuthContainer from '../components/authcontainer'
 import { globalStyles } from '../styles/global';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { AuthNavigator, HomeNavigator } from './src/routes/routes';
-// import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-// import { FIREBASE_AUTH } from '../firebase/firebaseConfig';
-// import { GoogleSignin } from '@react-native-google-signin/google-signin';
-
-
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');

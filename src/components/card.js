@@ -1,9 +1,10 @@
-import React,  { Component } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import React from "react";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { globalStyles } from "../styles/global";
 
 export const styles = StyleSheet.create({
     card: {
-        borderRadius: 15,
+        borderRadius: 8,
         elevation: 10,
         backgroundColor: '#fff',
         shadowOffset: { width: 10, height: -20 },
@@ -12,37 +13,30 @@ export const styles = StyleSheet.create({
         shadowRadius: 10,
         marginHorizontal: 10,
         marginVertical: 10,
-        width: 267,
-        height: 492,
-        justifyContent:"center",
-        alignItems: "center"
+        width: 285,
+        height: 82,
       },
       cardContent: {
-        margin: 30
+        marginLeft: 10
       },
+      title: {
+        fontSize: 20,
+        fontWeight: "500",
+        paddingVertical: 5
+      },
+      subtitle: {
+        fontSize: 12
+      }
 })
 
-// class Card extends Component {  
-//     render() {  
-//       return (  
-//           <View style={{alignItems: 'center'}}>  
-//             <Text>Hello!</Text>  
-//           </View>  
-//       );  
-//     }  
-//   } 
-
-// export default Card;
-
-export default function Card(props) {
+const Card = ({ id, name, age, gender }) => {
     return (
-        <View style={styles.card}>
-            <View style={styles.cardContent}>
-                <Text> Test </Text>
-                {/* <Text> {props.name} </Text>
-                <Text> {props.age} </Text>
-                <Text> {props.gender} </Text> */}
-            </View>
-        </View>
+        <TouchableOpacity style={styles.card} onPress={() => {console.log(id)}}>
+            <Text style={[styles.cardContent, styles.title]}>{name}</Text>
+            <Text style={[styles.cardContent, styles.subtitle]}>{age} years old</Text>
+            <Text style={[styles.cardContent, styles.subtitle]}>{gender}</Text>
+        </TouchableOpacity>
     )
 }
+
+export default Card;
