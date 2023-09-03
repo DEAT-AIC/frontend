@@ -29,8 +29,10 @@ const RegisterProfile = ({ navigation, route }) => {
 
     try {
       const response = await axios.post(serverUrl, requestData);
-
-      console.log('Response from server:', response.data);
+      const data = response.data;
+      console.log(data);
+      const jsonValue = JSON.stringify(data);
+      await AsyncStorage.setItem('user', jsonValue);
     } catch (error) {
         if (error.response.data.error == "Firebase: Error (auth/email-already-in-use).") {
             Alert.alert(
