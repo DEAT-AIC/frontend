@@ -4,6 +4,7 @@ import axios from 'axios';
 import { API_BASE_URL } from "@env"
 import AuthContainer from '../components/authcontainer'
 import { globalStyles } from '../styles/global';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -40,7 +41,10 @@ const Login = ({ navigation }) => {
 
       try {
         const response = await axios.post(serverUrl, requestData);
-        console.log(response.data);
+        const data = response.data;
+        console.log(data);
+        const jsonValue = JSON.stringify(data);
+        await AsyncStorage.setItem('user', jsonValue);
         navigation.navigate("Landing");
       } catch (error) {
         if ((error.response.data.error == "Firebase: Error (auth/wrong-password).") || (error.response.data.error == "Firebase: Error (auth/missing-password).")) {

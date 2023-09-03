@@ -4,6 +4,7 @@ import axios from 'axios';
 import { API_BASE_URL } from "@env"
 import AuthContainer from '../components/authcontainer'
 import { globalStyles } from '../styles/global';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RegisterProfile = ({ navigation, route }) => {
   const [name, setName] = useState('');
