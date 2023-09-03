@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
+import { Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import { API_BASE_URL } from "@env"
 import AuthContainer from '../components/authcontainer'
@@ -9,6 +9,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // const [accessToken, setAccessToken] = useState('');
+  // const [refreshToken, setRefreshToken] = useState('');
+  // const auth = FIREBASE_AUTH;
+
+  // const setCookie = async (accessToken, refreshToken) => {
+  //   const url = `${API_BASE_URL}/api/auth/setToken`;
+  //   const data = {
+  //     accessToken: accessToken,
+  //     refreshToken: refreshToken,
+  //   };
+
+  //   await axios
+  //     .post(url, data, { withCredentials: true })
+  //     .then((response) => {
+  //       navigation.navigate("Landing");
+  //     })
+  //     .catch((e) => {
+  //       errorHandling();
+  //     });
+  // };
 
   const errorHandling = () => {
     Alert.alert(
@@ -45,7 +65,7 @@ const Login = ({ navigation }) => {
         console.log(data);
         const jsonValue = JSON.stringify(data);
         await AsyncStorage.setItem('user', jsonValue);
-        navigation.navigate("Landing");
+        navigation.navigate('Home', { screen: 'Landing' });
       } catch (error) {
         if ((error.response.data.error == "Firebase: Error (auth/wrong-password).") || (error.response.data.error == "Firebase: Error (auth/missing-password).")) {
           Alert.alert(
@@ -60,7 +80,7 @@ const Login = ({ navigation }) => {
             'Email not Found', "Your email hasn't registered. Regist first or try again!", [
             {
               text: 'Register',
-              onPress: navigation.navigate("Register"),
+              onPress: navigation.navigate('Auth', { screen: 'Register' }),
               style: 'cancel',
             },
             {
@@ -75,16 +95,39 @@ const Login = ({ navigation }) => {
     }
   };
 
-  const loginGoogleAccount = () => {
-    console.log("You click Google Account Login")
-  }
+  // const loginGoogleAccount = async () => {
+  //   const provider = new GoogleAuthProvider();
+  //   await signInWithPopup(auth, provider)
+  //     .then(async function (result) {
+  //       const user = result.user;
+  //       const accessToken = await user.getIdToken(true)
+  //       const refreshToken = user.refreshToken;
+  //       setAccessToken(accessToken);
+  //       setRefreshToken(refreshToken);
+  //       const data = {
+  //         uid: user.uid,
+  //         accessToken: accessToken,
+  //         refreshToken: refreshToken
+  //       }
+  //       const jsonValue = JSON.stringify(data);
+  //       await AsyncStorage.setItem('user', jsonValue);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  //   setCookie(accessToken, refreshToken);
+  // }
 
   const goToRegister = () => {
-    navigation.navigate("Register");
+    navigation.navigate('Auth', { screen: 'Register' });
   }
 
   return (
-    <View style={globalStyles.container}>
+    <SafeAreaView style={globalStyles.container}>
+      <Image
+        style={styles.logoImage}
+        source={require("../../assets/Logo.png")}
+      />
       <AuthContainer>
         <Text style={globalStyles.tittleCard}>LOGIN</Text>
         <Text>{'\n'}</Text>
@@ -108,16 +151,12 @@ const Login = ({ navigation }) => {
         <TouchableOpacity onPress={handleLogin} style={{ backgroundColor: '#009092', padding: 10, borderRadius: 8 }}>
           <Text style={{ color: '#fff', textAlign: "center", fontWeight: "bold" }}>LOGIN</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={loginGoogleAccount} style={styles.google}>
-          <Image
-            style={styles.buttonImage}
-            source={require("../../assets/google.png")}
-          />
-          <Text style={{ textAlign: "center" }}>Login using Google</Text>
+        <TouchableOpacity onPress={goToRegister} style={styles.google}>
+          <Text onPress={goToRegister} style={{ textAlign: "center", fontSize: 12 }}>CREATE AN ACCOUNT</Text>
         </TouchableOpacity>
-        <Text onPress={goToRegister} style={{ textAlign: "center", fontSize: 12 }}>CREATE AN ACCOUNT</Text>
+        
       </AuthContainer>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -128,11 +167,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     padding: 10,
     borderRadius: 8,
+    marginTop: 10
   },
-  buttonImage: {
-    height: 20,
-    width: 20,
-    resizeMode: 'stretch',
+  logoImage: {
+    height: 150,
+    width: 150,
   },
 });
 

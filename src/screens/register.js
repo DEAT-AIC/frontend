@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
+import { SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import AuthContainer from '../components/authcontainer'
 import { globalStyles } from '../styles/global';
 
@@ -11,19 +11,15 @@ const Register = ({ navigation }) => {
   const errorHandling = () => {
     Alert.alert(
       'Invalid Confirm Password', 'Password is not the same as confirm password. Please try again!', [
-        {
-          text: 'Try Again',
-          style: 'cancel',
-        },
-      ]);
-  }
-
-  const registerGoogleAccount = () => {
-    console.log("You click Google Account Login")
+      {
+        text: 'Try Again',
+        style: 'cancel',
+      },
+    ]);
   }
 
   const goToLogin = () => {
-    navigation.navigate("Login");
+    navigation.navigate('Auth', { screen: 'Login' });
   }
 
   const next = () => {
@@ -37,18 +33,22 @@ const Register = ({ navigation }) => {
         },
       ]);
     } else {
-        if ((confirmPassword != password) || !password || !confirmPassword) {
-            errorHandling();
-        } else {
-            navigation.navigate("RegisterProfile", {
-                email, password
-            });
-        }
+      if ((confirmPassword != password) || !password || !confirmPassword) {
+        errorHandling();
+      } else {
+        navigation.navigate('Auth', { screen: 'RegisterProfile', params: {
+          email, password
+        } });
+      }
     }
   }
 
   return (
-    <View style={globalStyles.container}>
+    <SafeAreaView style={globalStyles.container}>
+      <Image
+        style={styles.logoImage}
+        source={require("../../assets/Logo.png")}
+      />
       <AuthContainer>
         <Text style={globalStyles.tittleCard}>SIGN UP</Text>
         <Text>Email</Text>
@@ -75,20 +75,14 @@ const Register = ({ navigation }) => {
           style={globalStyles.input}
         />
 
-        <TouchableOpacity onPress={next} style={{ backgroundColor: '#009092', padding: 10, borderRadius: 8 }}>
-          <Text style={{ color: '#fff', textAlign:"center", fontWeight:"bold" }}>NEXT</Text>
+        <TouchableOpacity onPress={next} style={{ backgroundColor: '#009092', padding: 10, borderRadius: 8, marginTop:8 }}>
+          <Text style={{ color: '#fff', textAlign: "center", fontWeight: "bold" }}>NEXT</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={registerGoogleAccount} style={styles.google}>
-          <Image 
-            style={styles.buttonImage}
-            source={require("../../assets/google.png")}
-          />
-          <Text style={{ textAlign:"center" }}>Signup using Google</Text>
+        <TouchableOpacity onPress={goToLogin} style={styles.google}>
+          <Text onPress={goToLogin} style={{ textAlign: "center", fontSize: 12 }}>ALREADY HAVE AN ACCOUNT?</Text>
         </TouchableOpacity>
-        <Text>{'\n'}</Text>
-        <Text onPress={goToLogin} style={{ textAlign: "center", fontSize:12}}>ALREADY HAVE AN ACCOUNT?</Text>
       </AuthContainer>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -97,12 +91,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
-    padding: 10
+    padding: 10,
+    marginTop:10
   },
-  buttonImage: {
-    height: 20,
-    width: 20,
-    resizeMode: 'stretch',
+  logoImage: {
+    height: 150,
+    width: 150,
   },
 });
 

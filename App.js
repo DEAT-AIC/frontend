@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { AuthNavigator, HomeNavigator } from './src/routes/routes';
+import { HomeNavigator, AuthNavigator } from './src/routes/routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View, Text, ActivityIndicator } from 'react-native';
+import { globalStyles } from './src/styles/global';
 
 export default function App() {
 
   const [isLogin, setIsLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const Stack = createNativeStackNavigator();
 
   const _retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('user');
       if (value !== null) {
-        console.log(JSON.parse(value));
         setIsLogin(true);
       } else {
         setIsLogin(false);
@@ -23,13 +28,25 @@ export default function App() {
     }
   };
 
-  useEffect(() => {
-    _retrieveData();
-  }, [])
+  useEffect( () => {
+    setTimeout(async () => {
+      await _retrieveData();
+      setIsLoading(false); // Set isLoading to false when data is ready
+    }, 2000);
+  }, [navigator])
 
   return (
-    <NavigationContainer>
-      {isLogin ? <HomeNavigator /> : <AuthNavigator />}
-    </NavigationContainer>
+    isLoading ? (
+      <View style={globalStyles.container}>
+        <ActivityIndicator size="large" color="#009092" />
+      </View>
+    ) : (
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={isLogin ? "Home" : "Auth"}>
+          <Stack.Screen name="Auth" component={AuthNavigator} />
+          <Stack.Screen name="Home" component={HomeNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    )
   )
 }
