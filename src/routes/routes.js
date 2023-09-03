@@ -1,9 +1,5 @@
 
-import React , { useState , useEffect , useContext } from 'react';
-import { StyleSheet, Text, Image ,View} from 'react-native';
-// import { createStackNavigator } from 'react-navigation-stack';
-// import { createAppContainer } from 'react-navigation';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useState, useEffect, useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { auth , onAuthStateChanged   } from "../utils/firebase";
 // import { useDispatch, useSelector } from 'react-redux';
@@ -20,10 +16,10 @@ import Assessment from '../screens/assessment';
 
 const Stack = createNativeStackNavigator();
 
-function App() {
+const AuthNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Assessment" screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Landing" component={Landing} options={{ title: 'Welcome', headerLeft:null }}/>
         <Stack.Screen name="Login" component={Login} options={{}}/>
         <Stack.Screen name="Register" component={Register} />
@@ -34,4 +30,15 @@ function App() {
   );
 }
 
-export default App;
+const HomeNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Landing" component={Landing} options={{ title: 'Welcome', headerLeft: null }} />
+      <Stack.Screen name="Login" component={Login} options={{}} />
+      <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="RegisterProfile" component={RegisterProfile} />
+    </Stack.Navigator>
+  );
+}
+
+export { AuthNavigator, HomeNavigator };

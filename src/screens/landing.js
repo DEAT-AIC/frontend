@@ -1,7 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Image, Text, Button } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Landing = ({ navigation }) => {
 
@@ -10,6 +9,11 @@ const Landing = ({ navigation }) => {
   }
 
   const goToLogin = () => {
+    navigation.navigate("Login");
+  }
+
+  const logout = async () => {
+    await AsyncStorage.removeItem("user")
     navigation.navigate("Login");
   }
 
@@ -31,6 +35,12 @@ const Landing = ({ navigation }) => {
           <Button
             onPress={goToRegister}
             title={"Register"}
+          />
+        </View>
+        <View style={styles.container1}>
+          <Button
+            onPress={logout}
+            title={"Logout"}
           />
         </View>
       </View>
