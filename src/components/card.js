@@ -1,4 +1,4 @@
-import React from "react";
+import React,  { Component } from "react";
 import { View, StyleSheet, Image } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -20,18 +20,28 @@ export const styles = StyleSheet.create({
       cardContent: {
         margin: 30
       },
-      buttonImage: {
-        height: 100,
-        width: 100,
-        resizeMode: 'stretch',
-      },
-  });
+})
 
-export default function AuthContainer(props) {
+// class Card extends Component {  
+//     render() {  
+//       return (  
+//           <View style={{alignItems: 'center'}}>  
+//             <Text>Hello!</Text>  
+//           </View>  
+//       );  
+//     }  
+//   } 
+
+// export default Card;
+
+export default function Card(props) {
     return (
         <View style={styles.card}>
             <View style={styles.cardContent}>
-                { props.children }
+                <Text> Test </Text>
+                {/* <Text> {props.name} </Text>
+                <Text> {props.age} </Text>
+                <Text> {props.gender} </Text> */}
             </View>
         </View>
     )

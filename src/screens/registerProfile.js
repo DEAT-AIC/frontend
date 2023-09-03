@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
+import { SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import axios from 'axios';
 import { API_BASE_URL } from "@env"
 import AuthContainer from '../components/authcontainer'
@@ -10,7 +10,7 @@ const RegisterProfile = ({ navigation, route }) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
-  const { password, email } = route.params;
+  const { email, password } = route.params;
 
   const handleRegister = async () => {
     const base = API_BASE_URL
@@ -34,16 +34,16 @@ const RegisterProfile = ({ navigation, route }) => {
       const jsonValue = JSON.stringify(data);
       await AsyncStorage.setItem('user', jsonValue);
     } catch (error) {
-        if (error.response.data.error == "Firebase: Error (auth/email-already-in-use).") {
-            Alert.alert(
-                'Email Already Registered', 'Your email is arleady registered. Please try again!', [
-                {
-                  text: 'Try Again',
-                  onclick: navigation.goBack(),
-                  style: 'cancel',
-                },
-              ]); 
-        }
+      if (error.response.data.error == "Firebase: Error (auth/email-already-in-use).") {
+        Alert.alert(
+          'Email Already Registered', 'Your email is arleady registered. Please try again!', [
+          {
+            text: 'Try Again',
+            onclick: navigation.goBack(),
+            style: 'cancel',
+          },
+        ]);
+      }
     }
   };
 
@@ -52,11 +52,15 @@ const RegisterProfile = ({ navigation, route }) => {
   }
 
   const goToLogin = () => {
-    navigation.navigate("Login");
+    navigation.navigate('Auth', { screen: 'Login' });
   }
 
   return (
-    <View style={globalStyles.container}>
+    <SafeAreaView style={globalStyles.container}>
+      <Image
+        style={styles.logoImage}
+        source={require("../../assets/Logo.png")}
+      />
       <AuthContainer>
         <Text style={globalStyles.tittleCard}>SIGN UP</Text>
         <Text>Name</Text>
@@ -80,19 +84,15 @@ const RegisterProfile = ({ navigation, route }) => {
           value={address}
           style={globalStyles.input}
         />
-        <TouchableOpacity onPress={handleRegister} style={{ backgroundColor: '#009092', padding: 10, borderRadius: 8 }}>
-          <Text style={{ color: '#fff', textAlign:"center", fontWeight:"bold" }}>SIGN UP</Text>
+        <TouchableOpacity onPress={handleRegister} style={{ backgroundColor: '#009092', padding: 10, borderRadius: 8, marginTop:10 }}>
+          <Text style={{ color: '#fff', textAlign: "center", fontWeight: "bold" }}>SIGN UP</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={registerGoogleAccount} style={styles.google}>
-          <Image 
-            style={styles.buttonImage}
-            source={require("../../assets/google.png")}
-          />
-          <Text style={{ textAlign:"center" }}>Sign up using Google</Text>
+        <TouchableOpacity onPress={goToLogin} style={styles.google}>
+          <Text onPress={goToLogin} style={{ textAlign: "center", fontSize: 12 }}>ALREADY HAVE AN ACCOUNT?</Text>
         </TouchableOpacity>
-        <Text onPress={goToLogin} style={{ textAlign: "center", fontSize:12}}>ALREADY HAVE AN ACCOUNT?</Text>
+        
       </AuthContainer>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -101,13 +101,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
-    padding: 10, 
+    padding: 10,
     borderRadius: 8,
+    marginTop:10
   },
-  buttonImage: {
-    height: 20,
-    width: 20,
-    resizeMode: 'stretch',
+  logoImage: {
+    height: 150,
+    width: 150,
   },
 });
 
