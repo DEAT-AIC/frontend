@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HomeNavigator, AuthNavigator } from './src/routes/routes';
+import { HomeNavigator, AuthNavigator, ChildNavigator } from './src/routes/routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -43,8 +43,9 @@ export default function App() {
     ) : (
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={isLogin ? "Home" : "Auth"}>
-          <Stack.Screen name="Auth" component={AuthNavigator} />
           <Stack.Screen name="Home" component={HomeNavigator} />
+          <Stack.Screen name="Auth" component={AuthNavigator} />
+          <Stack.Screen name="Child" component={ChildNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
     )
