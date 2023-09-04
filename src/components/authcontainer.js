@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 
 export const styles = StyleSheet.create({
     card: {
@@ -19,7 +19,12 @@ export const styles = StyleSheet.create({
       },
       cardContent: {
         margin: 30
-      }
+      },
+      buttonImage: {
+        height: 100,
+        width: 100,
+        resizeMode: 'stretch',
+      },
   });
 
 export default function AuthContainer(props) {

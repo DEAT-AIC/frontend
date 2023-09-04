@@ -5,6 +5,10 @@ export const globalStyles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold'
   },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "300"
+  },
   tittleCard: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -19,6 +23,7 @@ export const globalStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor:"#fff"
   },
   input: {
     height: 40,

@@ -1,16 +1,52 @@
 import React from "react";
 import { View, StyleSheet, Image, Text, Button } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { signOut } from 'firebase/auth';
+import { FIREBASE_AUTH } from '../firebase/firebaseConfig';
+import { API_BASE_URL } from "@env"
+// import RNRestart from 'react-native-restart';
 
 const Landing = ({ navigation }) => {
 
+  const getData = async () => {
+    const header = await getHeader();
+    const url = `${API_BASE_URL}/api/anak`;
+    axios.defaults.headers.common['Cookie'] = header;
+    await axios.get(url).then((response) => { 
+      console.log(response.data);
+      // navigation.navigate("Login"); 
+    })
+  }
+
   const goToRegister = () => {
-    navigation.navigate("Register");
+    navigation.navigate('Home', { screen: 'SelectChild' });
   }
 
   const goToLogin = () => {
-    navigation.navigate("Login");
+    navigation.navigate('Auth', { screen: 'Login' });
+  }
+
+  const getHeader = async () => {
+    const jsonValue = await AsyncStorage.getItem('user')
+    return jsonValue != null ? JSON.parse(jsonValue) : null
+  }
+
+  const logout = async () => {
+    const header = await getHeader();
+    console.log(header);
+    const url = `${API_BASE_URL}/api/auth/logout`;
+    await AsyncStorage.removeItem("user")
+    const auth = FIREBASE_AUTH;
+    signOut(auth);
+    await axios.get(url, {
+      headers: {
+          Cookie: header
+      }}).then((response) => { 
+      console.log(response);
+      // RNRestart.restart();
+      navigation.navigate('Auth', { screen: 'Login' }); 
+    })
   }
 
   return (
@@ -23,6 +59,12 @@ const Landing = ({ navigation }) => {
       <View style={{ width: "100%" }}>
         <View style={styles.container1}>
           <Button
+            onPress={getData}
+            title={"Get Data"}
+          />
+        </View>
+        <View style={styles.container1}>
+          <Button
             onPress={goToLogin}
             title={"Login"}
           />
@@ -30,7 +72,13 @@ const Landing = ({ navigation }) => {
         <View style={styles.container1}>
           <Button
             onPress={goToRegister}
-            title={"Register"}
+            title={"Card"}
+          />
+        </View>
+        <View style={styles.container1}>
+          <Button
+            onPress={logout}
+            title={"Logout"}
           />
         </View>
       </View>
