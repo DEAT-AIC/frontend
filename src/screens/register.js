@@ -74,7 +74,6 @@ const Register = ({ navigation }) => {
           secureTextEntry
           style={globalStyles.input}
         />
-
         <TouchableOpacity onPress={next} style={{ backgroundColor: '#009092', padding: 10, borderRadius: 8, marginTop:8 }}>
           <Text style={{ color: '#fff', textAlign: "center", fontWeight: "bold" }}>NEXT</Text>
         </TouchableOpacity>

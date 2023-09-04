@@ -9,6 +9,8 @@ import Landing from '../screens/landing';
 import RegisterProfile from '../screens/registerProfile';
 import SelectChild from '../screens/selectChild';
 import Assessment from '../screens/assessment';
+import DataChild from '../screens/dataChild';
+import AddChildData from '../screens/addChildData';
 
 
 const Stack = createNativeStackNavigator();
@@ -28,7 +30,7 @@ const HomeNavigator = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Landing" component={Landing} options={{ title: 'Home', headerLeft: null }} />
-      <Tab.Screen name="SelectChild" component={SelectChild} options={{}} />
+      <Tab.Screen name="SelectChild" component={DataChild} options={{}} />
       <Tab.Screen name="Assessment" component={Assessment} options={{}} />
     </Tab.Navigator>
   );

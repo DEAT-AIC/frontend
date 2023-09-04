@@ -42,9 +42,9 @@ export default function App() {
       </View>
     ) : (
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={isLogin ? "Home" : "Auth"}>
-          <Stack.Screen name="Auth" component={AuthNavigator} />
+        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={isLogin ? "Auth" : "Home"}>
           <Stack.Screen name="Home" component={HomeNavigator} />
+          <Stack.Screen name="Auth" component={AuthNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
     )
