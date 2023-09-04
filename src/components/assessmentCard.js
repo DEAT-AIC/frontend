@@ -1,29 +1,39 @@
-import React from 'react';
-import { View, Image, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Image, TouchableOpacity, Text, StyleSheet, TextInput } from 'react-native';
 import { styles as authStyles } from './authcontainer';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+// import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { globalStyles } from '../styles/global';
 
-const AssessmentCard = ({ imageSource, onRecordPress }) => {
+const AssessmentCard = ({ imageSource, onRecordPress, number, index }) => {
+    const [answer, setAnswer] = useState("");
     return (
         <View style={[authStyles.card, styles.cardOverride]}>
+            <View key={index} style={styles.circle}>
+                <Text style={styles.circleText}>{number}</Text>
+            </View>
             
             <Text style={styles.headerText}>Assessment Test</Text>
-            <Text style={styles.descriptionText}>Deskripsikan gambar yang kamu lihat</Text>
-            <View style={styles.contentContainer}>  {/* Added this container */}
+            <Text style={styles.descriptionText}>Describe this Image</Text>
+            <View style={styles.contentContainer}>
                 <Image source={{ uri: imageSource }} style={styles.image} />
                 <Text style={styles.jawabanText}>Jawaban Kamu:</Text>
+                <TextInput
+                    placeholder="Your Answer" 
+                    onChangeText={(text) => setAnswer(text)} 
+                    value={answer} 
+                    style={[globalStyles.input, styles.recordButton, {color:"#FFFFFF"}]}
+                />
                 <TouchableOpacity style={styles.recordButton} onPress={onRecordPress}>
-                    <Text style={styles.recordButtonText}> Rekam Jawabanmu </Text>
-                    <FontAwesome name="microphone" size={18} color="#FFFFFF" />
+                    <Text style={{color:"#FFFFFF"}}> Submit </Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.circleContainer}>
+            {/* <View style={styles.circleContainer}>
                 {Array(5).fill().map((_, index) => (
                     <View key={index} style={styles.circle}>
                         <Text style={styles.circleText}>{index + 1}</Text>
                     </View>
                 ))}
-            </View>
+            </View> */}
         </View>
     );
 }
@@ -37,6 +47,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 16,
+        paddingTop: 20
     },
     descriptionText: {
         textAlign: 'center', 
@@ -61,7 +72,9 @@ const styles = StyleSheet.create({
     },
     recordButton: {
         flexDirection: 'row',
-        alignItems: 'center',  // Vertically align text and icon
+        alignItems: 'center',
+        justifyContent: "center",
+        textAlign: "center",
         padding: 10,
         backgroundColor: '#007c7d', 
         borderRadius: 10,
@@ -70,6 +83,7 @@ const styles = StyleSheet.create({
     },
     recordButtonText: {
         color: '#FFFFFF',
+        textAlign: "center",
         flex: 1  // Push the icon to the end of the button
     },
     circleContainer: {

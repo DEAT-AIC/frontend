@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
         marginHorizontal: 10,
         marginVertical: 10,
         width: 267,
-        height: 492,
+        height: 600,
         justifyContent:"center",
         alignItems: "center"
       },
