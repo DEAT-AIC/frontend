@@ -15,7 +15,8 @@ const Assessment = () => {
             <View style={styles.contentContainer}>
                 <AssessmentCard 
                     imageSource="https://storage.googleapis.com/image-data-aic/4/bag/bag0.jpeg" 
-                    onRecordPress={handleRecord} 
+                    onRecordPress={handleRecord}
+                    number={1} 
                 />
             </View>
         </View>
@@ -25,7 +26,7 @@ const Assessment = () => {
 const styles = StyleSheet.create({
     contentContainer: {
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
         flex: 1
